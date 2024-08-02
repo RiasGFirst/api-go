@@ -1,0 +1,24 @@
+//Create a new user
+// user1 := databases.User{
+// 	UUID:      uuid.New().String(),
+// 	Username:  "john",
+// 	Email:     "johndoe@riascloud.fr",
+// 	Masterkey: "masterkey",
+// 	Storage: databases.Storage{
+// 		UUID:       uuid.New().String(),
+// 		UsedSpace:  0,
+// 		TotalSpace: 1024 * 1024 * 1024, // 1 GB
+// 	},
+// }
+// databases.DB.Create(&user1)
+
+// Read the user back
+var readUser databases.User
+databases.ReadUser(&readUser, "ca688863-8916-457d-84ac-a5683e398792")
+fmt.Println("User:", readUser.UUID, readUser.Username, readUser.Email, readUser.Storage.TotalSpace)
+
+// Update the user's email
+readUser = databases.User{}
+databases.ReadUser(&readUser, "ca688863-8916-457d-84ac-a5683e398792")
+databases.UpdateUser(&readUser, "johndoe@riascloud.fr")
+fmt.Println("User:", readUser.UUID, readUser.Username, readUser.Email, readUser.Storage.TotalSpace)

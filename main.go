@@ -2,23 +2,21 @@
 package main
 
 import (
-    "fmt"
+	"api-go/api"
 	"api-go/databases"
+	"flag"
+	"fmt"
+	"log"
+	//"github.com/google/uuid"
 )
 
 func main() {
-    // Initialize the database
-    databases.InitDB()
+    fmt.Println("[API] Server started")
+	databases.InitDB()
 
-    // Migrate the schema
-    databases.DB.AutoMigrate(&databases.User{})
+	listenAddr := flag.String("listen-addr", ":3000", "server listen address")
+	flag.Parse()
 
-    // Create a new user
-    user := databases.User{Name: "John Doe", Email: "johndoe@example.com", MasterKey: "123456"}
-    databases.DB.Create(&user)
-
-    // Read the user back
-    var readUser databases.User
-    databases.DB.First(&readUser, user.ID)
-    fmt.Println("User:", readUser.Name, readUser.Email)
+	server := api.NewServer(*listenAddr)
+	log.Fatal(server.Start())
 }
